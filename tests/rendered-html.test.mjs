@@ -20,12 +20,12 @@ test("renders the finished Sihha product", async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /صحة/);
-  assert.match(html, /Health Evidence Navigator/);
-  assert.match(html, /Safe demo/);
+  assert.match(html, /الفحوصات الماضية/);
+  assert.match(html, /جدول المكملات/);
   assert.match(html, /Apple Health ZIP/);
-  assert.match(html, /تقرير المختص/);
-  assert.match(html, /مؤشر اليوم/);
-  assert.match(html, /مراجعة لطبيب القلب/);
+  assert.match(html, /ملخص طبي للمختص/);
+  assert.match(html, /الأهداف الشخصية/);
+  assert.match(html, /تقرير القلب PDF/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
@@ -43,6 +43,8 @@ test("contains no private medical source artifacts", async () => {
   assert.match(combined, /مصطنعة|تجريبي/);
   const cardiacPdf = await readFile(new URL("../public/samples/sihha-synthetic-cardiology-brief.pdf", import.meta.url));
   assert.ok(cardiacPdf.length > 0 && cardiacPdf.length < 100_000);
+  const cardiacPreview = await readFile(new URL("../public/samples/sihha-synthetic-cardiology-brief-preview.png", import.meta.url));
+  assert.ok(cardiacPreview.length > 0 && cardiacPreview.length < 500_000);
 });
 
 test("Apple Health import stays local", async () => {

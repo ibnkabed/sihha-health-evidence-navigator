@@ -76,6 +76,30 @@ export const safeDemoData: HealthDataset = {
       clinicianQuestion: "هل توجد حاجة لربط هذه القراءة ببقية مؤشرات الحديد أو الالتهاب؟",
       readings: [{ date: "يناير", value: 332 }, { date: "أبريل", value: 311 }, { date: "يوليو", value: 296 }],
     },
+    {
+      id: "hdl-demo", nameAr: "الكوليسترول النافع", nameEn: "HDL cholesterol", category: "الدهون", unit: "mg/dL", reference: "أعلى من 40", status: "good", statusLabel: "ضمن المرجع", trend: "تحسن تدريجي من 46 إلى 52", clinicianQuestion: "هل يستمر القياس ضمن الحزمة الدورية المعتادة؟", readings: [{ date: "يناير", value: 46 }, { date: "أبريل", value: 49 }, { date: "يوليو", value: 52 }],
+    },
+    {
+      id: "cholesterol-demo", nameAr: "الكوليسترول الكلي", nameEn: "Total cholesterol", category: "الدهون", unit: "mg/dL", reference: "أقل من 200", status: "review", statusLabel: "للمراجعة", trend: "اتجاه هابط من 228 إلى 205 مع بقاء القراءة فوق المرجع التجريبي", clinicianQuestion: "كيف يُقرأ الاتجاه مع LDL وبقية عوامل الخطورة؟", readings: [{ date: "يناير", value: 228 }, { date: "أبريل", value: 216 }, { date: "يوليو", value: 205 }],
+    },
+    {
+      id: "triglycerides-demo", nameAr: "الدهون الثلاثية", nameEn: "Triglycerides", category: "الدهون", unit: "mg/dL", reference: "أقل من 150", status: "good", statusLabel: "ضمن المرجع", trend: "مستقرة داخل المرجع بين 92 و88", clinicianQuestion: "هل تكفي المتابعة الدورية المعتادة؟", readings: [{ date: "يناير", value: 92 }, { date: "أبريل", value: 86 }, { date: "يوليو", value: 88 }],
+    },
+    {
+      id: "glucose-demo", nameAr: "سكر صائم", nameEn: "Fasting glucose", category: "الأيض", unit: "mg/dL", reference: "70–99", status: "good", statusLabel: "ضمن المرجع", trend: "مستقر داخل المرجع التجريبي", clinicianQuestion: "هل يُعاد ضمن الفحص الدوري نفسه؟", readings: [{ date: "يناير", value: 91 }, { date: "أبريل", value: 89 }, { date: "يوليو", value: 90 }],
+    },
+    {
+      id: "hemoglobin-demo", nameAr: "الهيموغلوبين", nameEn: "Hemoglobin", category: "الدم", unit: "g/dL", reference: "13–17", status: "watch", statusLabel: "للمتابعة", trend: "قراءة على الحد الأعلى من المرجع التجريبي", clinicianQuestion: "هل تحتاج القراءة إلى ربطها بالترطيب وبقية صورة الدم؟", readings: [{ date: "يناير", value: 16.4 }, { date: "أبريل", value: 16.8 }, { date: "يوليو", value: 17 }],
+    },
+    {
+      id: "uric-acid-demo", nameAr: "حمض اليوريك", nameEn: "Uric acid", category: "الكيمياء", unit: "mg/dL", reference: "3.5–7.2", status: "watch", statusLabel: "للمتابعة", trend: "قريب من الحد الأعلى مع استقرار نسبي", clinicianQuestion: "هل يكفي تعديل نمط الغذاء والمتابعة الدورية؟", readings: [{ date: "يناير", value: 6.8 }, { date: "أبريل", value: 7.1 }, { date: "يوليو", value: 7 }],
+    },
+    {
+      id: "b12-demo", nameAr: "فيتامين ب12", nameEn: "Vitamin B12", category: "الفيتامينات", unit: "pg/mL", reference: "200–900", status: "good", statusLabel: "ضمن المرجع", trend: "مستقر في منتصف المرجع التجريبي", clinicianQuestion: "هل توجد حاجة لاستمرار المكمل المسجل؟", readings: [{ date: "يناير", value: 462 }, { date: "أبريل", value: 488 }, { date: "يوليو", value: 501 }],
+    },
+    {
+      id: "tsh-demo", nameAr: "هرمون الغدة الدرقية", nameEn: "TSH", category: "الهرمونات", unit: "mIU/L", reference: "0.4–4.0", status: "good", statusLabel: "ضمن المرجع", trend: "مستقر داخل المرجع التجريبي", clinicianQuestion: "هل تُكرر القراءة فقط عند وجود داعٍ سريري؟", readings: [{ date: "يناير", value: 2.1 }, { date: "أبريل", value: 2 }, { date: "يوليو", value: 2.2 }],
+    },
   ],
   supplements: [
     { name: "Vitamin D3", dose: "1000 IU", group: "الصباح", purpose: "سجل دعم فيتامين د", caution: "مراجعة الجرعة مع نتيجة فيتامين د والكالسيوم." },
@@ -86,5 +110,9 @@ export const safeDemoData: HealthDataset = {
     { name: "Protein Powder", dose: "20 g", group: "بعد التمرين", purpose: "استكمال الاحتياج الغذائي", caution: "يُحسب ضمن الغذاء اليومي وليس بديلًا للوجبات." },
     { name: "Electrolyte Mix", dose: "1 serving", group: "بعد التمرين", purpose: "تعويض السوائل المسجّل", caution: "مراجعة الصوديوم عند وجود قيود طبية." },
     { name: "Vitamin B12", dose: "500 mcg", group: "الصباح", purpose: "سجل فيتامين", caution: "تقييم الحاجة الفعلية مع القياس والنمط الغذائي." },
+    { name: "Curcumin", dose: "500 mg", group: "مع الوجبة", purpose: "سجل دعم المفاصل", caution: "مناقشة التداخلات واحتمال زيادة النزف مع المختص." },
+    { name: "L-Carnitine", dose: "500 mg", group: "قبل التمرين", purpose: "سجل دعم التدريب", caution: "تقييم الحاجة والفائدة القابلة للقياس قبل الاستمرار." },
+    { name: "L-Arginine", dose: "1 g", group: "قبل التمرين", purpose: "سجل دعم الأداء", caution: "مراجعة الملاءمة مع ضغط الدم والأدوية والحالة القلبية." },
+    { name: "Zinc", dose: "15 mg", group: "المساء", purpose: "سجل معدن", caution: "مراجعة إجمالي الجرعة ومدة الاستخدام وتوازن النحاس." },
   ],
 };
