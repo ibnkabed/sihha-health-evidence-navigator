@@ -16,7 +16,7 @@ The original personal prototype organized one person's workbook-driven lab resul
 - Added a lab trend explorer that keeps references, observations, and questions distinct.
 - Added a synthetic cardiology cross-signal prompt, dedicated Heart page, clinician questions, and a downloadable synthetic cardiology PDF. The private source report remains excluded.
 - Added a grouped supplement review surface with non-prescriptive cautions.
-- Added Arabic and English clinician-conversation briefs.
+- Added a complete Arabic–English interface switch across every page, chart, notice, and clinician-conversation brief, with automatic RTL/LTR direction and direct `?lang=` demo links.
 - Added visible local-first privacy architecture and non-diagnostic safety boundaries.
 - Added automated checks for rendering, sensitive-source artifacts, and hidden network upload.
 - Added a responsive, full-viewport interface and print layout.

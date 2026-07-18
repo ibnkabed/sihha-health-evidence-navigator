@@ -1,8 +1,9 @@
 # Sihha — Health Evidence Navigator
 
-Sihha is a privacy-first Arabic health evidence navigator. It turns scattered smartwatch activity, lab trends, and a user-maintained supplement log into an explainable brief for the user's next conversation with a clinician.
+Sihha is a privacy-first bilingual Arabic–English health evidence navigator. It turns scattered smartwatch activity, lab trends, and a user-maintained supplement log into an explainable brief for the user's next conversation with a clinician.
 
-- **Live demo:** https://sihha-health-evidence.abdullashammary.chatgpt.site
+- **Live demo (English):** https://sihha-health-evidence.abdullashammary.chatgpt.site/?lang=en
+- **Live demo (Arabic):** https://sihha-health-evidence.abdullashammary.chatgpt.site/?lang=ar
 - **Source:** https://github.com/ibnkabed/sihha-health-evidence-navigator
 
 The project **does not diagnose, prescribe, or recommend medication or supplement changes**. It separates recorded facts, computed trends, and discussion prompts.
@@ -23,6 +24,7 @@ The Activity page also makes progress visible. Seeing steps, sleep consistency, 
 ## What the demo includes
 
 - A safe, synthetic profile that works instantly.
+- A complete `العربية | English` interface switch covering the dashboard, all seven sections, Activity charts, notices, and printable clinician brief, with automatic RTL/LTR direction.
 - The same seven-page organization and dense chart-led visual language as the private prototype: past tests, upcoming tests, protocol, supplements, medical profile, labs, and Activity.
 - A smartwatch Activity modal with eight charts for steps, sleep, heart rate, distance, workouts, pace, and active minutes.
 - A synthetic **cardiology review prompt** that combines a high jogging heart-rate pattern with an LDL trend, prepares questions for a cardiologist, and offers a downloadable de-identified demo PDF.
@@ -83,7 +85,7 @@ Production build and tests:
 npm test
 ```
 
-No API key or credential is required. Judges can use **تشغيل العينة** for an instant no-file demo.
+No API key or credential is required. The synthetic sample is loaded automatically for an instant no-file demo. Judges can use the `العربية | English` control in the header or open the English demo link directly.
 
 For a safe end-to-end ZIP test, use [`public/samples/apple-health-demo.zip`](public/samples/apple-health-demo.zip). It contains a tiny synthetic `export.xml`; it is not a real person's health export.
 
@@ -105,7 +107,7 @@ The app itself does not call an OpenAI API. This is deliberate: private health e
 
 The private prototype existed before Build Week as a personal HTML/workbook workflow. It is not published.
 
-This repository is the Build Week extension: a new reusable React/Vinext application, synthetic dataset, on-device Apple Health ZIP importer, explanation engine, bilingual brief, privacy architecture, automated tests, judge documentation, and hosted demo. See [`docs/BUILD_WEEK_CHANGELOG.md`](docs/BUILD_WEEK_CHANGELOG.md).
+This repository is the Build Week extension: a new reusable React/Vinext application, synthetic dataset, on-device Apple Health ZIP importer, explanation engine, bilingual interface and brief, privacy architecture, automated tests, judge documentation, and hosted demo. See [`docs/BUILD_WEEK_CHANGELOG.md`](docs/BUILD_WEEK_CHANGELOG.md).
 
 ## Safety and privacy
 
@@ -123,6 +125,7 @@ Read [`docs/PRIVACY_AND_SAFETY.md`](docs/PRIVACY_AND_SAFETY.md). The short versi
 - `app/page.tsx` — complete interactive experience
 - `lib/apple-health-import.ts` — local Apple Health ZIP parser
 - `lib/health-engine.ts` — summaries and evidence brief generation
+- `lib/i18n.ts` — Arabic–English translations for synthetic health content
 - `lib/sample-data.ts` — synthetic judge dataset
 - `tests/` — rendering, privacy, and local-processing tests
 - `docs/` — judge guide, safety notes, changelog, and demo script

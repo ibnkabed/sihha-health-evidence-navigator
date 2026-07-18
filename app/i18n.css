@@ -1,0 +1,39 @@
+.language-switch{
+  display:flex;
+  align-items:center;
+  gap:3px;
+  padding:2px 5px;
+  border:1px solid rgba(165,243,252,.2);
+  border-radius:999px;
+  background:rgba(255,255,255,.035);
+  direction:ltr;
+}
+
+.header-actions .language-switch button{
+  min-width:0;
+  padding:3px 6px;
+  border:0;
+  background:transparent;
+  color:#8fa39e;
+  font-size:9px;
+}
+
+.header-actions .language-switch button.active{
+  background:linear-gradient(135deg,#22d3ee,#34d399);
+  color:#03211c;
+}
+
+.language-switch>span{color:#4f7770;font-size:9px}
+.filter-bar input{margin-inline-start:auto;margin-right:0}
+.subpage-scroll,.profile-content-scroll{padding-left:0;padding-inline-end:2px}
+.profile-plan ul,.report-preview-copy ul{padding-right:0;padding-inline-start:18px}
+.directory-grid article>span{margin-right:0;margin-inline-start:auto}
+
+[data-language="en"] .project-link,[data-language="en"] .report-option,[data-language="en"] .health-title,[data-language="en"] .directory-grid article{text-align:left}
+[data-language="en"] .source-line{justify-content:flex-start}
+[data-language="en"] .health-chart-card canvas{direction:ltr}
+
+@media(max-width:760px){
+  .header-actions{flex-wrap:wrap;overflow:visible}
+  .language-switch{flex:0 0 auto}
+}
