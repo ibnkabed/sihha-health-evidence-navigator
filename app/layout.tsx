@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
+import "./i18n.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
   const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:3000";
   const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.includes("localhost") ? "http" : "https");
   const base = new URL(`${protocol}://${host}`);
-  const description = "A privacy-first Arabic health evidence navigator for wearable, lab, and supplement data.";
+  const description = "A privacy-first bilingual Arabic-English health evidence navigator for wearable, lab, and supplement data.";
   return {
     metadataBase: base,
     title: "صحة | Sihha",
@@ -33,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

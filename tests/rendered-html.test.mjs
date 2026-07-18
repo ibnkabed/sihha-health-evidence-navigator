@@ -56,3 +56,17 @@ test("Apple Health import stays local", async () => {
   const sampleZip = await readFile(new URL("../public/samples/apple-health-demo.zip", import.meta.url));
   assert.ok(sampleZip.length > 0 && sampleZip.length < 50_000);
 });
+
+test("ships a complete bilingual interface contract", async () => {
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const translations = await readFile(new URL("../lib/i18n.ts", import.meta.url), "utf8");
+  const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
+  assert.match(page, /العربية/);
+  assert.match(page, /English/);
+  assert.match(page, /Language selection/);
+  assert.match(page, /document\.documentElement\.dir/);
+  assert.match(page, /sihha-language/);
+  assert.match(translations, /translateHealthText/);
+  assert.match(translations, /Anonymous demo profile/);
+  assert.match(layout, /i18n\.css/);
+});

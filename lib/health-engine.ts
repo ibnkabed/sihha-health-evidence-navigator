@@ -1,3 +1,5 @@
+import { translateHealthText, type Language } from "./i18n";
+
 export type DailySignal = {
   date: string;
   steps: number;
@@ -44,7 +46,8 @@ export type HealthDataset = {
 
 const mean = (values: number[]) => values.reduce((total, value) => total + value, 0) / Math.max(values.length, 1);
 
-export function buildHealthSummary(data: HealthDataset) {
+export function buildHealthSummary(data: HealthDataset, language: Language = "ar") {
+  const isEnglish = language === "en";
   const averageSteps = Math.round(mean(data.daily.map((day) => day.steps)));
   const averageSleep = mean(data.daily.map((day) => day.sleep));
   const workoutMinutes = data.daily.reduce((total, day) => total + day.workout, 0);
@@ -87,7 +90,9 @@ export function buildHealthSummary(data: HealthDataset) {
     maxJoggingHeartRate: data.cardiac.maxJoggingHeartRate,
     typicalJoggingPeak: data.cardiac.typicalJoggingPeak,
     latestLdl,
-    rationale: `ذروة نبض أثناء الهرولة ${data.cardiac.maxJoggingHeartRate} bpm مع LDL تجريبي ${latestLdl} mg/dL أعلى من مرجع العينة.`,
+    rationale: isEnglish
+      ? `Jogging heart-rate peak ${data.cardiac.maxJoggingHeartRate} bpm with synthetic LDL ${latestLdl} mg/dL above the sample reference.`
+      : `ذروة نبض أثناء الهرولة ${data.cardiac.maxJoggingHeartRate} bpm مع LDL تجريبي ${latestLdl} mg/dL أعلى من مرجع العينة.`,
   };
 
   return {
@@ -100,24 +105,28 @@ export function buildHealthSummary(data: HealthDataset) {
     changes: { steps: stepsChange, sleep: sleepChange, restingHeartRate: heartChange },
     cardiacReview,
     todayReasons: [
-      `الخطوات ${Math.round(lastDay.steps / Math.max(data.goals.steps, 1) * 100)}% من الهدف اليومي.`,
-      `النوم ${lastDay.sleep.toFixed(1)} من ${data.goals.sleep} ساعات.`,
-      `النشاط الأسبوعي ${workoutMinutes} من ${data.goals.workoutMinutes} دقيقة.`,
+      isEnglish ? `Steps reached ${Math.round(lastDay.steps / Math.max(data.goals.steps, 1) * 100)}% of the daily goal.` : `الخطوات ${Math.round(lastDay.steps / Math.max(data.goals.steps, 1) * 100)}% من الهدف اليومي.`,
+      isEnglish ? `Sleep reached ${lastDay.sleep.toFixed(1)} of ${data.goals.sleep} hours.` : `النوم ${lastDay.sleep.toFixed(1)} من ${data.goals.sleep} ساعات.`,
+      isEnglish ? `Weekly activity reached ${workoutMinutes} of ${data.goals.workoutMinutes} minutes.` : `النشاط الأسبوعي ${workoutMinutes} من ${data.goals.workoutMinutes} دقيقة.`,
     ],
     priorities: [
       {
-        title: averageSteps < data.goals.steps ? "الحركة دون الهدف" : "الحركة ضمن الهدف",
-        detail: `متوسط ${averageSteps.toLocaleString("en-US")} خطوة خلال سبعة أيام مقابل هدف ${data.goals.steps.toLocaleString("en-US")}.`,
+        title: isEnglish ? (averageSteps < data.goals.steps ? "Movement below goal" : "Movement on goal") : (averageSteps < data.goals.steps ? "الحركة دون الهدف" : "الحركة ضمن الهدف"),
+        detail: isEnglish ? `Average ${averageSteps.toLocaleString("en-US")} steps over seven days versus a ${data.goals.steps.toLocaleString("en-US")} goal.` : `متوسط ${averageSteps.toLocaleString("en-US")} خطوة خلال سبعة أيام مقابل هدف ${data.goals.steps.toLocaleString("en-US")}.`,
         source: "Smartwatch",
       },
       {
-        title: averageSleep < data.goals.sleep ? "النوم يحتاج انتظامًا" : "النوم ضمن الهدف",
-        detail: `متوسط النوم ${averageSleep.toFixed(1)} ساعة، مع اختلاف واضح بين أيام الأسبوع.`,
+        title: isEnglish ? (averageSleep < data.goals.sleep ? "Sleep needs consistency" : "Sleep on goal") : (averageSleep < data.goals.sleep ? "النوم يحتاج انتظامًا" : "النوم ضمن الهدف"),
+        detail: isEnglish ? `Average sleep ${averageSleep.toFixed(1)} hours, with visible variation across the week.` : `متوسط النوم ${averageSleep.toFixed(1)} ساعة، مع اختلاف واضح بين أيام الأسبوع.`,
         source: "Sleep log",
       },
       {
-        title: cardiacReview.triggered ? "تحضير مراجعة لطبيب القلب" : reviewLab ? `مراجعة اتجاه ${reviewLab.nameAr}` : "الاتجاهات المخبرية مستقرة",
-        detail: cardiacReview.triggered ? `${cardiacReview.rationale} التطبيق يقترح مناقشة هذه الصورة المركبة مع مختص، لا يشخّص سببها.` : reviewLab ? `${reviewLab.trend} — جهّز السؤال المقترح قبل الموعد.` : "لا توجد إشارة مصنفة للمراجعة في العينة.",
+        title: isEnglish
+          ? (cardiacReview.triggered ? "Prepare a cardiology review" : reviewLab ? `Review the ${reviewLab.nameEn} trend` : "Lab trends are stable")
+          : (cardiacReview.triggered ? "تحضير مراجعة لطبيب القلب" : reviewLab ? `مراجعة اتجاه ${reviewLab.nameAr}` : "الاتجاهات المخبرية مستقرة"),
+        detail: isEnglish
+          ? (cardiacReview.triggered ? `${cardiacReview.rationale} Sihha suggests discussing this combined picture with a clinician; it does not diagnose the cause.` : reviewLab ? `${translateHealthText(reviewLab.trend, language)} Prepare the suggested question before the appointment.` : "No signal in the sample is classified for review.")
+          : (cardiacReview.triggered ? `${cardiacReview.rationale} التطبيق يقترح مناقشة هذه الصورة المركبة مع مختص، لا يشخّص سببها.` : reviewLab ? `${reviewLab.trend} — جهّز السؤال المقترح قبل الموعد.` : "لا توجد إشارة مصنفة للمراجعة في العينة."),
         source: cardiacReview.triggered ? "Cross-signal prompt" : "Lab trend",
       },
     ],
@@ -125,7 +134,32 @@ export function buildHealthSummary(data: HealthDataset) {
 }
 
 export function buildJudgeEvidence(data: HealthDataset, language: "ar" | "en") {
-  const summary = buildHealthSummary(data);
+  if (language === "en") {
+    data = {
+      ...data,
+      profile: {
+        ...data.profile,
+        label: translateHealthText(data.profile.label, language),
+        lastSync: translateHealthText(data.profile.lastSync, language),
+        source: translateHealthText(data.profile.source, language),
+      },
+      daily: data.daily.map((day) => ({ ...day, date: translateHealthText(day.date, language) })),
+      labs: data.labs.map((lab) => ({
+        ...lab,
+        reference: translateHealthText(lab.reference, language),
+        statusLabel: translateHealthText(lab.statusLabel, language),
+        trend: translateHealthText(lab.trend, language),
+        clinicianQuestion: translateHealthText(lab.clinicianQuestion, language),
+      })),
+      supplements: data.supplements.map((item) => ({
+        ...item,
+        group: translateHealthText(item.group, language),
+        purpose: translateHealthText(item.purpose, language),
+        caution: translateHealthText(item.caution, language),
+      })),
+    };
+  }
+  const summary = buildHealthSummary(data, language);
   const reviewLabs = data.labs.filter((lab) => lab.status !== "good");
   const cautions = data.supplements.filter((item) => item.caution);
   if (language === "en") {
