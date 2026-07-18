@@ -1,0 +1,113 @@
+# Sihha — Health Evidence Navigator
+
+Sihha is a privacy-first Arabic health evidence navigator. It turns scattered smartwatch activity, lab trends, and a user-maintained supplement log into an explainable brief for the user's next conversation with a clinician.
+
+The project **does not diagnose, prescribe, or recommend medication or supplement changes**. It separates recorded facts, computed trends, and discussion prompts.
+
+## Why it exists
+
+People with smartwatches often collect thousands of measurements but still struggle to answer simple questions:
+
+- Is my routine improving?
+- Which signal changed?
+- Is the evidence complete enough to trust the pattern?
+- What should I ask my clinician at the next appointment?
+
+Sihha makes that evidence understandable without turning a consumer dashboard into a medical device.
+
+The Activity page also makes progress visible. Seeing steps, sleep consistency, active minutes, and recent change in one place can make exercise feel more rewarding and give users a positive reason to keep moving and paying attention to their health.
+
+## What the demo includes
+
+- A safe, synthetic profile that works instantly.
+- A smartwatch activity page for steps, sleep, resting heart rate, and active minutes.
+- A motivational **Today score**, a **What changed?** comparison, and an **Evidence quality** score that explain their inputs and never claim medical readiness.
+- Local import of an Apple Health `export.zip` file.
+- Explainable lab trends with references and clinician-conversation questions.
+- A grouped supplement log with review prompts and explicit safety boundaries.
+- Arabic and English clinician briefs that can be printed, copied, or downloaded.
+- Privacy and architecture pages that show exactly where processing happens.
+
+## Apple Health ZIP → Activity page
+
+On iPhone, the user can open **Health → profile picture → Export All Health Data**. Apple creates a compressed `export.zip` file containing `export.xml`.
+
+When the user selects that ZIP in Sihha:
+
+1. The ZIP is opened inside the browser with `fflate`.
+2. Only `export.xml` is read.
+3. Sihha extracts the latest seven days of supported records:
+   - `HKQuantityTypeIdentifierStepCount`
+   - `HKCategoryTypeIdentifierSleepAnalysis`
+   - `HKQuantityTypeIdentifierRestingHeartRate`
+   - `HKQuantityTypeIdentifierAppleExerciseTime`
+   - Apple Health `Workout` durations
+4. The records are normalized into the Activity page.
+5. Nothing is uploaded. There is no account, server database, analytics tracker, or automatic sharing.
+
+The contest repository contains **no real Apple Health export, medical report, workbook, or personally identifying health record**.
+
+## Run locally
+
+Requirements: Node.js 22.13 or newer.
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+Production build and tests:
+
+```bash
+npm test
+```
+
+No API key or credential is required. Judges can use **تشغيل العينة** for an instant no-file demo.
+
+For a safe end-to-end ZIP test, use [`public/samples/apple-health-demo.zip`](public/samples/apple-health-demo.zip). It contains a tiny synthetic `export.xml`; it is not a real person's health export.
+
+## How Codex and GPT-5.6 were used
+
+Codex with GPT-5.6 was used during the Build Week submission period to:
+
+- isolate the contest version from a private personal prototype;
+- design a reusable, synthetic-data product rather than publish a personal dashboard;
+- implement the Apple Health ZIP parser and signal normalization;
+- build the explainable activity, lab, supplement, privacy, and report experiences;
+- establish non-diagnostic safety language and source-aware evidence prompts;
+- create automated privacy, rendering, and architecture checks;
+- test the real product flow and document the work for judges.
+
+The app itself does not call an OpenAI API. This is deliberate: private health exports stay local. GPT-5.6 was the engineering and reasoning partner through Codex, and the app creates a structured evidence brief that a user may choose to discuss with a clinician or use in a separate GPT-5.6 conversation.
+
+## Pre-existing prototype vs. Build Week work
+
+The private prototype existed before Build Week as a personal HTML/workbook workflow. It is not published.
+
+This repository is the Build Week extension: a new reusable React/Vinext application, synthetic dataset, on-device Apple Health ZIP importer, explanation engine, bilingual brief, privacy architecture, automated tests, judge documentation, and hosted demo. See [`docs/BUILD_WEEK_CHANGELOG.md`](docs/BUILD_WEEK_CHANGELOG.md).
+
+## Safety and privacy
+
+Read [`docs/PRIVACY_AND_SAFETY.md`](docs/PRIVACY_AND_SAFETY.md). The short version:
+
+- synthetic demo records only;
+- local browser processing;
+- no diagnosis or treatment recommendation;
+- no hidden upload;
+- user-controlled print and download;
+- clinician review remains the decision point.
+
+## Project structure
+
+- `app/page.tsx` — complete interactive experience
+- `lib/apple-health-import.ts` — local Apple Health ZIP parser
+- `lib/health-engine.ts` — summaries and evidence brief generation
+- `lib/sample-data.ts` — synthetic judge dataset
+- `tests/` — rendering, privacy, and local-processing tests
+- `docs/` — judge guide, safety notes, changelog, and demo script
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).
