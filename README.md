@@ -23,14 +23,15 @@ The Activity page also makes progress visible. Seeing steps, sleep consistency, 
 ## What the demo includes
 
 - A safe, synthetic profile that works instantly.
-- A smartwatch activity page for steps, sleep, resting heart rate, and active minutes.
-- A motivational **Today score**, a **What changed?** comparison, and an **Evidence quality** score that explain their inputs and never claim medical readiness.
+- The same seven-page organization and dense chart-led visual language as the private prototype: past tests, upcoming tests, protocol, supplements, medical profile, labs, and Activity.
+- A smartwatch Activity modal with eight charts for steps, sleep, heart rate, distance, workouts, pace, and active minutes.
 - A synthetic **cardiology review prompt** that combines a high jogging heart-rate pattern with an LDL trend, prepares questions for a cardiologist, and offers a downloadable de-identified demo PDF.
+- A visible first-page preview of that synthetic cardiology PDF inside the Medical Profile, so judges can inspect the evidence structure before opening the full document.
 - Local import of an Apple Health `export.zip` file.
 - Explainable lab trends with references and clinician-conversation questions.
 - A grouped supplement log with review prompts and explicit safety boundaries.
-- Arabic and English clinician briefs that can be printed, copied, or downloaded.
-- Privacy and architecture pages that show exactly where processing happens.
+- A specialist evidence builder that can be printed from the dashboard.
+- Privacy boundaries stated in the interface and documentation: synthetic demo data, local ZIP processing, and no automatic sharing.
 
 ## Apple Health ZIP → Activity page
 
@@ -57,7 +58,7 @@ The contest repository contains **no real Apple Health export, medical report, w
 
 The private version of Sihha helped its creator turn scattered wearable heart-rate patterns from jogging and lipid results into a structured reason to prepare for a cardiology review. It then organized the evidence and questions into a cardiology brief that could be taken to the specialist. That practical benefit — moving from “I have many numbers” to “I know what to discuss next” — is the clearest proof of the product's value.
 
-The public contest app recreates that same journey with synthetic values, so judges can understand the benefit without exposing the creator's private medical report.
+The public contest app recreates that same journey with synthetic values, so judges can understand the benefit without exposing the creator's private medical report. In the Medical Profile, judges see a real rendered preview of the synthetic PDF and can open the complete one-page brief.
 
 Codex with GPT-5.6 helped propose and design a new judge-facing idea: when a synthetic wearable pattern shows a high heart-rate peak during jogging and a synthetic LDL result remains above its displayed reference, Sihha surfaces a prompt to **consider a cardiology conversation**.
 
