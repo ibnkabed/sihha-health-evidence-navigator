@@ -2,6 +2,9 @@
 
 Sihha is a privacy-first Arabic health evidence navigator. It turns scattered smartwatch activity, lab trends, and a user-maintained supplement log into an explainable brief for the user's next conversation with a clinician.
 
+- **Live demo:** https://sihha-health-evidence.abdullashammary.chatgpt.site
+- **Source:** https://github.com/ibnkabed/sihha-health-evidence-navigator
+
 The project **does not diagnose, prescribe, or recommend medication or supplement changes**. It separates recorded facts, computed trends, and discussion prompts.
 
 ## Why it exists
