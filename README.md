@@ -53,6 +53,12 @@ The contest repository contains **no real Apple Health export, medical report, w
 
 ## Cardiology cross-signal prompt
 
+### A real benefit from the private prototype
+
+The private version of Sihha helped its creator turn scattered wearable heart-rate patterns from jogging and lipid results into a structured reason to prepare for a cardiology review. It then organized the evidence and questions into a cardiology brief that could be taken to the specialist. That practical benefit — moving from “I have many numbers” to “I know what to discuss next” — is the clearest proof of the product's value.
+
+The public contest app recreates that same journey with synthetic values, so judges can understand the benefit without exposing the creator's private medical report.
+
 Codex with GPT-5.6 helped propose and design a new judge-facing idea: when a synthetic wearable pattern shows a high heart-rate peak during jogging and a synthetic LDL result remains above its displayed reference, Sihha surfaces a prompt to **consider a cardiology conversation**.
 
 The prompt is deliberately non-diagnostic. Optical wearable heart rate cannot classify rhythm, and a lipid result does not explain the heart-rate response by itself. Sihha therefore prepares questions about an exercise ECG, safe exercise intensity, ambulatory monitoring, and lipid risk context instead of naming a condition or recommending treatment.

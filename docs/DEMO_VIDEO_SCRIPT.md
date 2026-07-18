@@ -26,7 +26,7 @@ Show LDL, then the supplement table.
 
 ## 1:42–2:05 — Cardiology cross-signal prompt
 
-**Voiceover:** “Codex with GPT-5.6 also helped design a cross-signal prompt. When the synthetic sample combines a high jogging heart-rate peak with an LDL result above its displayed reference, Sihha suggests preparing a cardiology conversation. It does not diagnose a rhythm or explain causation. Judges can download a fully synthetic cardiology brief with questions about exercise ECG, safe intensity, monitoring, and lipid context.”
+**Voiceover:** “This is where Sihha already helped me personally. In my private prototype, it brought together elevated jogging heart-rate patterns and lipid results, gave me a clear reason to prepare a cardiology review, and organized a report I could take to the specialist. Codex with GPT-5.6 helped shape that cross-signal prompt and its safety boundary. The public demo recreates the same benefit with synthetic data; it does not diagnose a rhythm or explain causation.”
 
 Show the **القلب** page and the synthetic PDF button.
 

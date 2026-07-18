@@ -19,5 +19,5 @@ Use your own Apple Health `export.zip`, or the repository's synthetic `public/sa
 
 - **Technological implementation:** ZIP extraction, HealthKit record parsing, normalization, cross-signal cardiology prompt, bilingual export, tests.
 - **Design:** one coherent Arabic-first product flow with an instant safe demo.
-- **Potential impact:** turns passive smartwatch collection into better-informed clinical conversations.
+- **Potential impact:** the private prototype already helped its creator combine jogging heart-rate patterns and lipid results into a structured cardiology brief for a specialist; the public demo reproduces that benefit with synthetic data.
 - **Quality of idea:** evidence quality and source-aware prompts without pretending to be a diagnostic system.
