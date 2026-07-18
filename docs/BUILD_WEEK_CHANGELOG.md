@@ -14,6 +14,7 @@ The original personal prototype organized one person's workbook-driven lab resul
 - Added an explainable activity page with seven-day patterns and target context.
 - Added the Today score, What changed comparison, and evidence-quality score with visible non-medical boundaries.
 - Added a lab trend explorer that keeps references, observations, and questions distinct.
+- Added a synthetic cardiology cross-signal prompt, dedicated Heart page, clinician questions, and a downloadable synthetic cardiology PDF. The private source report remains excluded.
 - Added a grouped supplement review surface with non-prescriptive cautions.
 - Added Arabic and English clinician-conversation briefs.
 - Added visible local-first privacy architecture and non-diagnostic safety boundaries.

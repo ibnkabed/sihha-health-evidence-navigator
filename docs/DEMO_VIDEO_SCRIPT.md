@@ -1,4 +1,4 @@
-# Public demo video script — target 2:35
+# Public demo video script — target 2:50
 
 ## 0:00–0:18 — Problem
 
@@ -18,19 +18,25 @@ Show the **استيراد Apple Health ZIP** button, then open Activity using th
 
 Show steps, sleep bars, and pattern card.
 
-## 1:20–1:48 — Labs and supplements
+## 1:20–1:42 — Labs and supplements
 
 **Voiceover:** “Lab results are shown as trends, not isolated red flags. Each result keeps the reference, latest value, direction, and a suggested question for a clinician. The supplement view organizes what the user already recorded; it never recommends starting or stopping anything.”
 
 Show LDL, then the supplement table.
 
-## 1:48–2:12 — Brief and privacy
+## 1:42–2:05 — Cardiology cross-signal prompt
+
+**Voiceover:** “Codex with GPT-5.6 also helped design a cross-signal prompt. When the synthetic sample combines a high jogging heart-rate peak with an LDL result above its displayed reference, Sihha suggests preparing a cardiology conversation. It does not diagnose a rhythm or explain causation. Judges can download a fully synthetic cardiology brief with questions about exercise ECG, safe intensity, monitoring, and lipid context.”
+
+Show the **القلب** page and the synthetic PDF button.
+
+## 2:05–2:25 — Brief and privacy
 
 **Voiceover:** “Sihha creates an Arabic or English evidence brief that the user can print, copy, or download. Nothing is shared automatically. The demo is synthetic, and real imports stay in browser memory.”
 
 Show English report and Privacy page.
 
-## 2:12–2:35 — Codex and GPT-5.6
+## 2:25–2:50 — Codex and GPT-5.6
 
 **Voiceover:** “Codex with GPT-5.6 helped transform a private personal prototype into a reusable contest product: isolating sensitive data, implementing the Apple Health parser, designing the explanation engine, defining medical safety boundaries, and building automated privacy and rendering tests. Sihha helps people use the data they already own for a better health conversation.”
 

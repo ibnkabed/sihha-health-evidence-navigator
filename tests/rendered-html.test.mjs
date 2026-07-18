@@ -25,6 +25,7 @@ test("renders the finished Sihha product", async () => {
   assert.match(html, /Apple Health ZIP/);
   assert.match(html, /تقرير المختص/);
   assert.match(html, /مؤشر اليوم/);
+  assert.match(html, /مراجعة لطبيب القلب/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
@@ -40,6 +41,8 @@ test("contains no private medical source artifacts", async () => {
   const combined = sources.join("\n");
   assert.doesNotMatch(combined, /Abdullah|عبدالله|Wareed|PCMC|بياناتي من تطبيق صحة|الفحوصات والمكملات/);
   assert.match(combined, /مصطنعة|تجريبي/);
+  const cardiacPdf = await readFile(new URL("../public/samples/sihha-synthetic-cardiology-brief.pdf", import.meta.url));
+  assert.ok(cardiacPdf.length > 0 && cardiacPdf.length < 100_000);
 });
 
 test("Apple Health import stays local", async () => {

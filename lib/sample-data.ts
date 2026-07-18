@@ -8,6 +8,12 @@ export const safeDemoData: HealthDataset = {
     source: "ساعة ذكية + سجل مختبر تجريبي + قائمة مكملات تجريبية",
   },
   goals: { steps: 10000, sleep: 7, workoutMinutes: 150 },
+  cardiac: {
+    maxJoggingHeartRate: 188,
+    typicalJoggingPeak: 174,
+    context: "ذروة مسجلة أثناء هرولة قوية في العينة المصطنعة؛ لا يتوفر تخطيط نظم تشخيصي.",
+    source: "Synthetic wearable workout summary",
+  },
   daily: [
     { date: "12 يول", steps: 6120, sleep: 6.1, workout: 18, restingHeartRate: 59 },
     { date: "13 يول", steps: 7840, sleep: 6.6, workout: 22, restingHeartRate: 58 },

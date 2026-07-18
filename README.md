@@ -25,6 +25,7 @@ The Activity page also makes progress visible. Seeing steps, sleep consistency, 
 - A safe, synthetic profile that works instantly.
 - A smartwatch activity page for steps, sleep, resting heart rate, and active minutes.
 - A motivational **Today score**, a **What changed?** comparison, and an **Evidence quality** score that explain their inputs and never claim medical readiness.
+- A synthetic **cardiology review prompt** that combines a high jogging heart-rate pattern with an LDL trend, prepares questions for a cardiologist, and offers a downloadable de-identified demo PDF.
 - Local import of an Apple Health `export.zip` file.
 - Explainable lab trends with references and clinician-conversation questions.
 - A grouped supplement log with review prompts and explicit safety boundaries.
@@ -49,6 +50,14 @@ When the user selects that ZIP in Sihha:
 5. Nothing is uploaded. There is no account, server database, analytics tracker, or automatic sharing.
 
 The contest repository contains **no real Apple Health export, medical report, workbook, or personally identifying health record**.
+
+## Cardiology cross-signal prompt
+
+Codex with GPT-5.6 helped propose and design a new judge-facing idea: when a synthetic wearable pattern shows a high heart-rate peak during jogging and a synthetic LDL result remains above its displayed reference, Sihha surfaces a prompt to **consider a cardiology conversation**.
+
+The prompt is deliberately non-diagnostic. Optical wearable heart rate cannot classify rhythm, and a lipid result does not explain the heart-rate response by itself. Sihha therefore prepares questions about an exercise ECG, safe exercise intensity, ambulatory monitoring, and lipid risk context instead of naming a condition or recommending treatment.
+
+The downloadable `sihha-synthetic-cardiology-brief.pdf` contains synthetic values only. The private source report that inspired the product idea is not included in the contest copy or public repository.
 
 ## Run locally
 

@@ -34,6 +34,12 @@ export type HealthDataset = {
   daily: DailySignal[];
   labs: LabTrend[];
   supplements: Supplement[];
+  cardiac: {
+    maxJoggingHeartRate: number;
+    typicalJoggingPeak: number;
+    context: string;
+    source: string;
+  };
 };
 
 const mean = (values: number[]) => values.reduce((total, value) => total + value, 0) / Math.max(values.length, 1);
@@ -74,6 +80,15 @@ export function buildHealthSummary(data: HealthDataset) {
   const lowSleepSteps = mean(lowSleep.map((day) => day.steps));
   const sleepStepLift = Math.max(0, Math.round((highSleepSteps - lowSleepSteps) / Math.max(lowSleepSteps, 1) * 100));
   const reviewLab = data.labs.find((lab) => lab.status === "review");
+  const ldlLab = data.labs.find((lab) => lab.id === "ldl-demo");
+  const latestLdl = ldlLab?.readings.at(-1)?.value ?? 0;
+  const cardiacReview = {
+    triggered: data.cardiac.maxJoggingHeartRate >= 180 && Boolean(ldlLab && ldlLab.status !== "good"),
+    maxJoggingHeartRate: data.cardiac.maxJoggingHeartRate,
+    typicalJoggingPeak: data.cardiac.typicalJoggingPeak,
+    latestLdl,
+    rationale: `ذروة نبض أثناء الهرولة ${data.cardiac.maxJoggingHeartRate} bpm مع LDL تجريبي ${latestLdl} mg/dL أعلى من مرجع العينة.`,
+  };
 
   return {
     averageSteps,
@@ -83,6 +98,7 @@ export function buildHealthSummary(data: HealthDataset) {
     evidenceQuality,
     sleepStepLift,
     changes: { steps: stepsChange, sleep: sleepChange, restingHeartRate: heartChange },
+    cardiacReview,
     todayReasons: [
       `الخطوات ${Math.round(lastDay.steps / Math.max(data.goals.steps, 1) * 100)}% من الهدف اليومي.`,
       `النوم ${lastDay.sleep.toFixed(1)} من ${data.goals.sleep} ساعات.`,
@@ -100,9 +116,9 @@ export function buildHealthSummary(data: HealthDataset) {
         source: "Sleep log",
       },
       {
-        title: reviewLab ? `مراجعة اتجاه ${reviewLab.nameAr}` : "الاتجاهات المخبرية مستقرة",
-        detail: reviewLab ? `${reviewLab.trend} — جهّز السؤال المقترح قبل الموعد.` : "لا توجد إشارة مصنفة للمراجعة في العينة.",
-        source: "Lab trend",
+        title: cardiacReview.triggered ? "تحضير مراجعة لطبيب القلب" : reviewLab ? `مراجعة اتجاه ${reviewLab.nameAr}` : "الاتجاهات المخبرية مستقرة",
+        detail: cardiacReview.triggered ? `${cardiacReview.rationale} التطبيق يقترح مناقشة هذه الصورة المركبة مع مختص، لا يشخّص سببها.` : reviewLab ? `${reviewLab.trend} — جهّز السؤال المقترح قبل الموعد.` : "لا توجد إشارة مصنفة للمراجعة في العينة.",
+        source: cardiacReview.triggered ? "Cross-signal prompt" : "Lab trend",
       },
     ],
   };
@@ -113,7 +129,7 @@ export function buildJudgeEvidence(data: HealthDataset, language: "ar" | "en") {
   const reviewLabs = data.labs.filter((lab) => lab.status !== "good");
   const cautions = data.supplements.filter((item) => item.caution);
   if (language === "en") {
-    return `# Sihha — Clinician Conversation Brief\n\nProfile: ${data.profile.label} (${data.profile.ageBand})\nData window: ${data.daily[0]?.date}–${data.daily.at(-1)?.date}\nSources: ${data.profile.source}\n\n## Evidence quality\n- Routine evidence quality: ${summary.evidenceQuality}%\n- Today routine score: ${summary.todayScore}/100 (a motivational routine signal, not a medical readiness score)\n\n## Routine signals\n- Average steps: ${summary.averageSteps.toLocaleString("en-US")} / ${data.goals.steps.toLocaleString("en-US")} daily target\n- Average sleep: ${summary.averageSleep.toFixed(1)} / ${data.goals.sleep} hours\n- Active minutes: ${summary.workoutMinutes} / ${data.goals.workoutMinutes} weekly target\n- First vs latest three-day windows: steps ${summary.changes.steps >= 0 ? "+" : ""}${summary.changes.steps}%, sleep ${summary.changes.sleep >= 0 ? "+" : ""}${summary.changes.sleep} h, resting heart rate ${summary.changes.restingHeartRate >= 0 ? "+" : ""}${summary.changes.restingHeartRate} bpm.\n\n## Lab trends to discuss\n${reviewLabs.map((lab) => `- ${lab.nameEn}: ${lab.trend}. Latest ${lab.readings.at(-1)?.value} ${lab.unit}; reference ${lab.reference}. Question: ${lab.clinicianQuestion}`).join("\n")}\n\n## Supplement review prompts\n${cautions.map((item) => `- ${item.name} (${item.dose}): ${item.caution}`).join("\n")}\n\n## Safety boundary\nThis brief organizes user-provided evidence. It does not diagnose, prescribe, or recommend starting, stopping, or changing treatment. All records in this demo are synthetic.`;
+    return `# Sihha — Clinician Conversation Brief\n\nProfile: ${data.profile.label} (${data.profile.ageBand})\nData window: ${data.daily[0]?.date}–${data.daily.at(-1)?.date}\nSources: ${data.profile.source}\n\n## Evidence quality\n- Routine evidence quality: ${summary.evidenceQuality}%\n- Today routine score: ${summary.todayScore}/100 (a motivational routine signal, not a medical readiness score)\n\n## Routine signals\n- Average steps: ${summary.averageSteps.toLocaleString("en-US")} / ${data.goals.steps.toLocaleString("en-US")} daily target\n- Average sleep: ${summary.averageSleep.toFixed(1)} / ${data.goals.sleep} hours\n- Active minutes: ${summary.workoutMinutes} / ${data.goals.workoutMinutes} weekly target\n- First vs latest three-day windows: steps ${summary.changes.steps >= 0 ? "+" : ""}${summary.changes.steps}%, sleep ${summary.changes.sleep >= 0 ? "+" : ""}${summary.changes.sleep} h, resting heart rate ${summary.changes.restingHeartRate >= 0 ? "+" : ""}${summary.changes.restingHeartRate} bpm.\n\n## Cardiology review prompt\n- Synthetic jogging peak: ${summary.cardiacReview.maxJoggingHeartRate} bpm; latest synthetic LDL: ${summary.cardiacReview.latestLdl} mg/dL.\n- Codex + GPT-5.6 helped design a cross-signal prompt to consider a cardiology conversation. This is not a diagnosis, and optical wearable heart rate cannot classify rhythm.\n\n## Lab trends to discuss\n${reviewLabs.map((lab) => `- ${lab.nameEn}: ${lab.trend}. Latest ${lab.readings.at(-1)?.value} ${lab.unit}; reference ${lab.reference}. Question: ${lab.clinicianQuestion}`).join("\n")}\n\n## Supplement review prompts\n${cautions.map((item) => `- ${item.name} (${item.dose}): ${item.caution}`).join("\n")}\n\n## Safety boundary\nThis brief organizes user-provided evidence. It does not diagnose, prescribe, or recommend starting, stopping, or changing treatment. All records in this demo are synthetic.`;
   }
-  return `# صحة — موجز المحادثة مع المختص\n\nالملف: ${data.profile.label} (${data.profile.ageBand})\nالفترة: ${data.daily[0]?.date}–${data.daily.at(-1)?.date}\nالمصادر: ${data.profile.source}\n\n## جودة الأدلة\n- جودة بيانات الروتين: ${summary.evidenceQuality}%\n- مؤشر اليوم: ${summary.todayScore}/100 (إشارة تحفيزية للروتين وليست جاهزية طبية)\n\n## مؤشرات الروتين\n- متوسط الخطوات: ${summary.averageSteps.toLocaleString("en-US")} من هدف ${data.goals.steps.toLocaleString("en-US")} يوميًا\n- متوسط النوم: ${summary.averageSleep.toFixed(1)} من هدف ${data.goals.sleep} ساعات\n- الدقائق النشطة: ${summary.workoutMinutes} من هدف ${data.goals.workoutMinutes} أسبوعيًا\n- التغير بين أول وآخر ثلاثة أيام: الخطوات ${summary.changes.steps >= 0 ? "+" : ""}${summary.changes.steps}%، النوم ${summary.changes.sleep >= 0 ? "+" : ""}${summary.changes.sleep} ساعة، نبض الراحة ${summary.changes.restingHeartRate >= 0 ? "+" : ""}${summary.changes.restingHeartRate} bpm.\n\n## اتجاهات مخبرية للنقاش\n${reviewLabs.map((lab) => `- ${lab.nameAr}: ${lab.trend}. آخر قراءة ${lab.readings.at(-1)?.value} ${lab.unit}؛ المرجع ${lab.reference}. السؤال: ${lab.clinicianQuestion}`).join("\n")}\n\n## أسئلة مراجعة المكملات\n${cautions.map((item) => `- ${item.name} (${item.dose}): ${item.caution}`).join("\n")}\n\n## حدود الأمان\nهذا الموجز ينظم الأدلة التي أدخلها المستخدم. لا يشخّص ولا يصف علاجًا ولا يقترح بدء دواء أو مكمل أو إيقافه أو تغيير جرعته. جميع بيانات العرض مصطنعة.`;
+  return `# صحة — موجز المحادثة مع المختص\n\nالملف: ${data.profile.label} (${data.profile.ageBand})\nالفترة: ${data.daily[0]?.date}–${data.daily.at(-1)?.date}\nالمصادر: ${data.profile.source}\n\n## جودة الأدلة\n- جودة بيانات الروتين: ${summary.evidenceQuality}%\n- مؤشر اليوم: ${summary.todayScore}/100 (إشارة تحفيزية للروتين وليست جاهزية طبية)\n\n## مؤشرات الروتين\n- متوسط الخطوات: ${summary.averageSteps.toLocaleString("en-US")} من هدف ${data.goals.steps.toLocaleString("en-US")} يوميًا\n- متوسط النوم: ${summary.averageSleep.toFixed(1)} من هدف ${data.goals.sleep} ساعات\n- الدقائق النشطة: ${summary.workoutMinutes} من هدف ${data.goals.workoutMinutes} أسبوعيًا\n- التغير بين أول وآخر ثلاثة أيام: الخطوات ${summary.changes.steps >= 0 ? "+" : ""}${summary.changes.steps}%، النوم ${summary.changes.sleep >= 0 ? "+" : ""}${summary.changes.sleep} ساعة، نبض الراحة ${summary.changes.restingHeartRate >= 0 ? "+" : ""}${summary.changes.restingHeartRate} bpm.\n\n## تنبيه مراجعة القلب\n- ذروة الهرولة التجريبية: ${summary.cardiacReview.maxJoggingHeartRate} bpm؛ وآخر LDL تجريبي: ${summary.cardiacReview.latestLdl} mg/dL.\n- ساعد Codex مع GPT-5.6 في تصميم تنبيه يجمع الإشارتين لاقتراح مناقشتهما مع طبيب القلب. هذا ليس تشخيصًا، وقياس النبض البصري من الساعة لا يحدد نوع النظم القلبي.\n\n## اتجاهات مخبرية للنقاش\n${reviewLabs.map((lab) => `- ${lab.nameAr}: ${lab.trend}. آخر قراءة ${lab.readings.at(-1)?.value} ${lab.unit}؛ المرجع ${lab.reference}. السؤال: ${lab.clinicianQuestion}`).join("\n")}\n\n## أسئلة مراجعة المكملات\n${cautions.map((item) => `- ${item.name} (${item.dose}): ${item.caution}`).join("\n")}\n\n## حدود الأمان\nهذا الموجز ينظم الأدلة التي أدخلها المستخدم. لا يشخّص ولا يصف علاجًا ولا يقترح بدء دواء أو مكمل أو إيقافه أو تغيير جرعته. جميع بيانات العرض مصطنعة.`;
 }

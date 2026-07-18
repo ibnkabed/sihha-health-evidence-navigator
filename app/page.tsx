@@ -9,12 +9,13 @@ import {
 import { safeDemoData } from "../lib/sample-data";
 import { importLocalHealthFile } from "../lib/apple-health-import";
 
-type View = "overview" | "activity" | "labs" | "supplements" | "report" | "privacy";
+type View = "overview" | "activity" | "labs" | "cardiac" | "supplements" | "report" | "privacy";
 
 const navItems: Array<{ id: View; label: string; icon: string }> = [
   { id: "overview", label: "نظرة عامة", icon: "⌂" },
   { id: "activity", label: "النشاط", icon: "⌁" },
   { id: "labs", label: "المختبر", icon: "◫" },
+  { id: "cardiac", label: "القلب", icon: "♥" },
   { id: "supplements", label: "المكملات", icon: "✦" },
   { id: "report", label: "تقرير المختص", icon: "▤" },
   { id: "privacy", label: "الخصوصية", icon: "◉" },
@@ -193,6 +194,27 @@ export default function Home() {
                 </div>
                 <div className="discussion-box"><strong>سؤال مقترح للمختص</strong><p>{selectedLab.clinicianQuestion}</p><small>هذه صياغة لتنظيم الحوار وليست توصية علاجية.</small></div>
               </article>
+            </div>
+          )}
+
+          {view === "cardiac" && (
+            <div className="cardiac-layout">
+              <article className="cardiac-hero">
+                <div>
+                  <div className="eyebrow">تنبيه متعدد الإشارات</div>
+                  <h2>متى يتحول الرقم إلى سؤال لطبيب القلب؟</h2>
+                  <p>يجمع صحة بين ذروة نبض مرتفعة أثناء الهرولة واتجاه دهون يحتاج مراجعة، ثم يقترح محادثة متخصصة بدل إصدار تشخيص.</p>
+                </div>
+                <div className="codex-chip"><b>Codex + GPT‑5.6</b><span>صمّم منطق التنبيه وصياغة حدود الأمان</span></div>
+              </article>
+              <article className="cardiac-metric alert"><span>ذروة الهرولة</span><strong>{dataset.cardiac.maxJoggingHeartRate}<small> bpm</small></strong><p>{dataset.cardiac.context}</p></article>
+              <article className="cardiac-metric"><span>الذروة المعتادة</span><strong>{dataset.cardiac.typicalJoggingPeak}<small> bpm</small></strong><p>مؤشر من ساعة بصرية؛ ليس تخطيط ECG.</p></article>
+              <article className="cardiac-metric amber"><span>آخر LDL تجريبي</span><strong>{summary.cardiacReview.latestLdl}<small> mg/dL</small></strong><p>أعلى من مرجع العينة مع اتجاه هابط.</p></article>
+              <article className="cardiac-review">
+                <div><div className="eyebrow">اقتراح قابل للتصرف</div><h3>ناقش مراجعة طبيب القلب</h3><p>{summary.cardiacReview.rationale} ظهور الإشارتين معًا يبرر تجهيز أسئلة عن النظم أثناء الجهد وتقييم عوامل الخطورة، لكنه لا يثبت مرضًا ولا يفسر سبب ارتفاع النبض.</p></div>
+                <a className="download-link" href="/samples/sihha-synthetic-cardiology-brief.pdf" download>تنزيل تقرير القلب التجريبي PDF</a>
+              </article>
+              <article className="cardiac-questions"><span>أسئلة جاهزة</span><ol><li>هل يلزم ECG أثناء الجهد؟</li><li>ما حدود الشدة الآمنة لحين التقييم؟</li><li>كيف تُقيّم الدهون مع بقية عوامل الخطورة؟</li></ol><small>العينة مصطنعة بالكامل. لا تستخدم هذه الصفحة للطوارئ.</small></article>
             </div>
           )}
 
