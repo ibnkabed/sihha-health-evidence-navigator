@@ -103,6 +103,14 @@ Codex with GPT-5.6 was used during the Build Week submission period to:
 
 The app itself does not call an OpenAI API. This is deliberate: private health exports stay local. GPT-5.6 was the engineering and reasoning partner through Codex, and the app creates a structured evidence brief that a user may choose to discuss with a clinician or use in a separate GPT-5.6 conversation.
 
+### Key owner decisions
+
+- Keep the private prototype and every real medical source outside the contest repository; the public product uses synthetic records only.
+- Preserve a local-first architecture instead of sending Apple Health data to an API merely to demonstrate model use.
+- Recreate the compact seven-section product experience rather than replace it with a generic hackathon dashboard.
+- Treat cross-signal patterns as prompts for a clinician conversation, never as a diagnosis, rhythm classification, causal claim, or treatment recommendation.
+- Use Codex with GPT-5.6 to accelerate architecture, implementation, safety wording, tests, and browser verification while the owner retained the product, privacy, and clinical-boundary decisions above.
+
 ## Pre-existing prototype vs. Build Week work
 
 The private prototype existed before Build Week as a personal HTML/workbook workflow. It is not published.
