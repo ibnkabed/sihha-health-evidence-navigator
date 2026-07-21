@@ -4,6 +4,7 @@ Sihha is a privacy-first bilingual Arabic–English health evidence navigator. I
 
 - **Live demo (English):** https://sihha-health-evidence.abdullashammary.chatgpt.site/?lang=en
 - **Live demo (Arabic):** https://sihha-health-evidence.abdullashammary.chatgpt.site/?lang=ar
+- **Demo video (YouTube):** https://youtu.be/fiFxrs-UgFM
 - **Source:** https://github.com/ibnkabed/sihha-health-evidence-navigator
 
 The project **does not diagnose, prescribe, or recommend medication or supplement changes**. It separates recorded facts, computed trends, and discussion prompts.
